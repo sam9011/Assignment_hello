@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -21,12 +22,14 @@ public class HelloController {
 	@Qualifier("helloService")
 	private HelloService helloService;
 	
-	@GetMapping
+	@GetMapping({"/id","/"})
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	private HelloResponse helloMsg(@RequestBody HelloRequest helloRequest) {
+	private HelloResponse helloMsg(@RequestBody(required = false) HelloRequest helloRequest,
+			@PathVariable(name="id",required = false) Integer id) {
 		HelloResponse helloResponse = null;
 		
 		helloResponse = helloService.helloService(helloRequest);
+		System.out.println("hh"+id);
 		
 		return helloResponse;
 		
